@@ -40,5 +40,33 @@ namespace Project.Controllers
                 DT = schedules,
             });
         }
+
+        [HttpGet("detail")]
+        public IActionResult GetScheduleById([FromQuery] string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new JsonResult(new
+                {
+                    EC = -1,
+                    EM = "Missing id parameter",
+                    DT = "",
+                });
+            }
+            var schedule = context.Schedules.Where(s => s.Id == Int32.Parse(id)).Select(s => new
+            {
+                date = s.Date,
+                code = s.SlotTypeNavigation.Code1,
+                group = s.Class,
+                teacher = s.Teacher,
+                course = s.Course.Name,
+            }).FirstOrDefault();
+            return new JsonResult(new
+            {
+                EC = 0,
+                EM = "Get schedule successfully",
+                DT = schedule,
+            });
+        }
     }
 }
