@@ -16,4 +16,6 @@ public partial class Code
     public virtual ICollection<Schedule> ScheduleDayTypeNavigations { get; set; } = new List<Schedule>();
 
     public virtual ICollection<Schedule> ScheduleSlotTypeNavigations { get; set; } = new List<Schedule>();
+
+    public virtual ICollection<SlotDuration> SlotDurations { get; set; } = new List<SlotDuration>();
 }

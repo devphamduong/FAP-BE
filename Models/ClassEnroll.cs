@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Project.Models;
 
@@ -9,8 +10,8 @@ public partial class ClassEnroll
     public int ClassId { get; set; }
 
     public int StudentId { get; set; }
-    [JsonIgnore]
+
     public virtual Class Class { get; set; } = null!;
-    [JsonIgnore]
+
     public virtual Student Student { get; set; } = null!;
 }

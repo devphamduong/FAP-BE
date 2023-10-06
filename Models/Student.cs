@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Project.Models;
 
@@ -17,8 +18,8 @@ public partial class Student
     public string? Address { get; set; }
 
     public DateTime? Dob { get; set; }
-    [JsonIgnore]
+
     public virtual ICollection<ClassEnroll> ClassEnrolls { get; set; } = new List<ClassEnroll>();
-    [JsonIgnore]
+
     public virtual ICollection<CourseEnroll> CourseEnrolls { get; set; } = new List<CourseEnroll>();
 }

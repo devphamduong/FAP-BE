@@ -8,22 +8,30 @@ namespace Project.Controllers
     public class ScheduleAPI : ControllerBase
     {
         MyProjectDbContext context = new MyProjectDbContext();
-        public class Object
+
+        public class ObjDay
         {
-            public string code { get; set; }
-            public object subject { get; set; }
+            public string? code { get; set; }
+            public object? subject { get; set; }
+            public bool? hasEduNext { get; set; }
         }
+
         [HttpGet]
-        public IActionResult GetAllSchedule()
+        public IActionResult GetAllSchedule([FromQuery] string startDate, [FromQuery] string endDate)
         {
-            var schedules = context.Schedules.Select(s => new
+            IQueryable<Schedule> query = context.Schedules;
+            if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
             {
+                query = query.Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate));
+            }
+            var schedules = query.Select(s => new
+            {
+                Id = s.Id,
                 name = s.SlotTypeNavigation.Description,
                 code = s.SlotTypeNavigation.Code1,
-                day = new List<Object>
-                {
-                    new Object {code = s.DayTypeNavigation.Code1, subject= s.Course}
-                },
+                duration = s.SlotTypeNavigation.SlotDurations.FirstOrDefault(slot => slot.CodeId == s.SlotTypeNavigation.Code1).Duration,
+                room = s.Room,
+                day = new ObjDay { code = s.DayTypeNavigation.Code1, subject = s.Course, hasEduNext = s.Course.HasEduNext }
             }).ToList();
             return new JsonResult(new
             {

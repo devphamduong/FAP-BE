@@ -25,6 +25,8 @@ public partial class MyProjectDbContext : DbContext
 
     public virtual DbSet<Schedule> Schedules { get; set; }
 
+    public virtual DbSet<SlotDuration> SlotDurations { get; set; }
+
     public virtual DbSet<Student> Students { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
@@ -106,6 +108,7 @@ public partial class MyProjectDbContext : DbContext
             entity.HasIndex(e => e.Name, "UQ__Course__72E12F1BACDF9377").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.HasEduNext).HasColumnName("hasEduNext");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
@@ -147,6 +150,9 @@ public partial class MyProjectDbContext : DbContext
             entity.Property(e => e.DayType)
                 .HasMaxLength(50)
                 .HasColumnName("dayType");
+            entity.Property(e => e.Room)
+                .HasMaxLength(50)
+                .HasColumnName("room");
             entity.Property(e => e.SlotType)
                 .HasMaxLength(50)
                 .HasColumnName("slotType");
@@ -173,6 +179,26 @@ public partial class MyProjectDbContext : DbContext
             entity.HasOne(d => d.Teacher).WithMany(p => p.Schedules)
                 .HasForeignKey(d => d.TeacherId)
                 .HasConstraintName("FK__Schedule__teache__59FA5E80");
+        });
+
+        modelBuilder.Entity<SlotDuration>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SlotDura__3213E83FF37B3065");
+
+            entity.ToTable("SlotDuration");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CodeId)
+                .HasMaxLength(50)
+                .HasColumnName("codeId");
+            entity.Property(e => e.Duration)
+                .HasMaxLength(50)
+                .HasColumnName("duration");
+
+            entity.HasOne(d => d.Code).WithMany(p => p.SlotDurations)
+                .HasPrincipalKey(p => p.Code1)
+                .HasForeignKey(d => d.CodeId)
+                .HasConstraintName("FK__SlotDurat__codeI__02FC7413");
         });
 
         modelBuilder.Entity<Student>(entity =>
