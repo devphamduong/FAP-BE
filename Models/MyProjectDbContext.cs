@@ -23,13 +23,13 @@ public partial class MyProjectDbContext : DbContext
 
     public virtual DbSet<CourseEnroll> CourseEnrolls { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     public virtual DbSet<Schedule> Schedules { get; set; }
 
     public virtual DbSet<SlotDuration> SlotDurations { get; set; }
 
-    public virtual DbSet<Student> Students { get; set; }
-
-    public virtual DbSet<Teacher> Teachers { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -66,17 +66,16 @@ public partial class MyProjectDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ClassId).HasColumnName("classId");
-            entity.Property(e => e.StudentId).HasColumnName("studentId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Class).WithMany(p => p.ClassEnrolls)
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ClassEnro__class__6B24EA82");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.ClassEnrolls)
-                .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ClassEnro__stude__6C190EBB");
+            entity.HasOne(d => d.User).WithMany(p => p.ClassEnrolls)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__ClassEnro__userI__25518C17");
         });
 
         modelBuilder.Entity<Code>(entity =>
@@ -122,17 +121,26 @@ public partial class MyProjectDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CourseId).HasColumnName("courseId");
-            entity.Property(e => e.StudentId).HasColumnName("studentId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Course).WithMany(p => p.CourseEnrolls)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__CourseEnr__cours__5441852A");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.CourseEnrolls)
-                .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__CourseEnr__stude__5535A963");
+            entity.HasOne(d => d.User).WithMany(p => p.CourseEnrolls)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__CourseEnr__userI__245D67DE");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.ToTable("Role");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Schedule>(entity =>
@@ -156,7 +164,7 @@ public partial class MyProjectDbContext : DbContext
             entity.Property(e => e.SlotType)
                 .HasMaxLength(50)
                 .HasColumnName("slotType");
-            entity.Property(e => e.TeacherId).HasColumnName("teacherId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Class).WithMany(p => p.Schedules)
                 .HasForeignKey(d => d.ClassId)
@@ -176,9 +184,9 @@ public partial class MyProjectDbContext : DbContext
                 .HasForeignKey(d => d.SlotType)
                 .HasConstraintName("FK__Schedule__slotTy__5BE2A6F2");
 
-            entity.HasOne(d => d.Teacher).WithMany(p => p.Schedules)
-                .HasForeignKey(d => d.TeacherId)
-                .HasConstraintName("FK__Schedule__teache__59FA5E80");
+            entity.HasOne(d => d.User).WithMany(p => p.Schedules)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__Schedule__userId__236943A5");
         });
 
         modelBuilder.Entity<SlotDuration>(entity =>
@@ -201,21 +209,16 @@ public partial class MyProjectDbContext : DbContext
                 .HasConstraintName("FK__SlotDurat__codeI__02FC7413");
         });
 
-        modelBuilder.Entity<Student>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Student__3213E83F940042DA");
+            entity.HasKey(e => e.Id).HasName("PK__User__3213E83F5BC6CEEF");
 
-            entity.ToTable("Student");
-
-            entity.HasIndex(e => e.Code, "UQ__Student__357D4CF90234A893").IsUnique();
+            entity.ToTable("User");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .HasColumnName("address");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
             entity.Property(e => e.Dob)
                 .HasColumnType("datetime")
                 .HasColumnName("dob");
@@ -226,32 +229,17 @@ public partial class MyProjectDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("fullName");
             entity.Property(e => e.Gender).HasColumnName("gender");
-        });
-
-        modelBuilder.Entity<Teacher>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Teacher__3213E83FE81C2AA1");
-
-            entity.ToTable("Teacher");
-
-            entity.HasIndex(e => e.Code, "UQ__Teacher__357D4CF96FED0FCA").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .HasColumnName("email");
-            entity.Property(e => e.FullName)
-                .HasMaxLength(50)
-                .HasColumnName("fullName");
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .HasColumnName("password");
+            entity.Property(e => e.RoleId).HasColumnName("roleId");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .HasColumnName("username");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK__User__roleId__22751F6C");
         });
 
         OnModelCreatingPartial(modelBuilder);

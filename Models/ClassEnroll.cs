@@ -9,9 +9,9 @@ public partial class ClassEnroll
 
     public int ClassId { get; set; }
 
-    public int StudentId { get; set; }
+    public int? UserId { get; set; }
 
     public virtual Class Class { get; set; } = null!;
 
-    public virtual Student Student { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

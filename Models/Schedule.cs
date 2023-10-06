@@ -13,7 +13,7 @@ public partial class Schedule
 
     public int? ClassId { get; set; }
 
-    public int? TeacherId { get; set; }
+    public int? UserId { get; set; }
 
     public string? DayType { get; set; }
 
@@ -29,5 +29,5 @@ public partial class Schedule
 
     public virtual Code? SlotTypeNavigation { get; set; }
 
-    public virtual Teacher? Teacher { get; set; }
+    public virtual User? User { get; set; }
 }
