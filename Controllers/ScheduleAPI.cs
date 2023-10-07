@@ -58,7 +58,7 @@ namespace Project.Controllers
                 date = s.Date,
                 code = s.SlotTypeNavigation.Code1,
                 group = s.Class,
-                teacher = s.Teacher,
+                teacher = s.User,
                 course = s.Course.Name,
             }).FirstOrDefault();
             return new JsonResult(new

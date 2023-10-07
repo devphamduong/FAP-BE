@@ -3,14 +3,13 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/v1/user")]
+    [Route("api/v1/class")]
     [ApiController]
-    public class UserAPI : ControllerBase
+    public class ClassAPI : ControllerBase
     {
         MyProjectDbContext context = new MyProjectDbContext();
-
         [HttpGet]
-        public IActionResult GetUserById([FromQuery] string id)
+        public ActionResult GetClassById([FromQuery] string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -21,12 +20,18 @@ namespace Project.Controllers
                     DT = "",
                 });
             }
-            var teacher = context.Users.Where(s => s.Id == Int32.Parse(id)).FirstOrDefault();
+            var group = context.ClassEnrolls.Where(s => s.ClassId == Int32.Parse(id)).Select(s => new
+            {
+                key = 1,
+                image = "No image",
+                username = s.User.Username,
+                fullName = s.User.FullName
+            }).ToList();
             return new JsonResult(new
             {
                 EC = 0,
-                EM = "Get user successfully",
-                DT = teacher,
+                EM = "Get class successfully",
+                DT = group,
             });
         }
     }
