@@ -63,7 +63,7 @@ namespace Project.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterModal data)
         {
-            if (string.IsNullOrEmpty(data.email) || string.IsNullOrEmpty(data.password) || string.IsNullOrEmpty(data.username) || string.IsNullOrWhiteSpace(data.fullName))
+            if (string.IsNullOrEmpty(data.email) || string.IsNullOrEmpty(data.password) || string.IsNullOrEmpty(data.username))
             {
                 return new JsonResult(new
                 {
@@ -80,6 +80,16 @@ namespace Project.Controllers
                     EM = "This email is already in use by another account",
                 });
             }
+            context.Users.Add(new User
+            {
+                Email = data.email,
+                Password = data.password,
+                Username = data.username,
+                FullName = !string.IsNullOrEmpty(data.fullName) ? data.fullName : null,
+                RoleId = 1,
+                Gender = true
+            });
+            context.SaveChanges();
             return new JsonResult(new
             {
                 EC = 0,
