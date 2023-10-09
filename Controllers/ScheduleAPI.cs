@@ -16,6 +16,14 @@ namespace Project.Controllers
             public bool? hasEduNext { get; set; }
         }
 
+        public class ObjUpdateSchedule
+        {
+            public int scheduleId { get; set; }
+            public string? date { get; set; }
+            public string? day { get; set; }
+            public string? slot { get; set; }
+        }
+
         [HttpGet]
         public IActionResult GetAllSchedule([FromQuery] string startDate, [FromQuery] string? endDate)
         {
@@ -44,19 +52,18 @@ namespace Project.Controllers
         [HttpGet("teacher")]
         public IActionResult GetAllScheduleForTeacher([FromQuery] string startDate, [FromQuery] string? teacherId)
         {
-            //if (string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(teacherId))
-            //{
-            //    return new JsonResult(new
-            //    {
-            //        EC = -1,
-            //        EM = "Missing id parameter",
-            //        DT = "",
-            //    });
-            //}
+            if (string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(teacherId))
+            {
+                return new JsonResult(new
+                {
+                    EC = -1,
+                    EM = "Missing id parameter",
+                });
+            }
             IQueryable<Schedule> query = context.Schedules;
             if (!string.IsNullOrEmpty(startDate))
             {
-                query = query.Where(s => s.Date >= DateTime.Parse("2023-10-03") && s.UserId == Int32.Parse("3"));
+                query = query.Where(s => s.Date >= DateTime.Parse(startDate) && s.UserId == Int32.Parse(teacherId));
             }
             var schedules = query.Select(s => new
             {
@@ -85,7 +92,6 @@ namespace Project.Controllers
                 {
                     EC = -1,
                     EM = "Missing id parameter",
-                    DT = "",
                 });
             }
             var schedule = context.Schedules.Where(s => s.Id == Int32.Parse(id)).Select(s => new
@@ -101,6 +107,37 @@ namespace Project.Controllers
                 EC = 0,
                 EM = "Get schedule successfully",
                 DT = schedule,
+            });
+        }
+
+        [HttpPut]
+        public IActionResult ChangeSchedule([FromBody] ObjUpdateSchedule data)
+        {
+            if (string.IsNullOrEmpty(data.scheduleId.ToString()) || string.IsNullOrEmpty(data.date.ToString()) || string.IsNullOrEmpty(data.day) || string.IsNullOrEmpty(data.slot))
+            {
+                return new JsonResult(new
+                {
+                    EC = -1,
+                    EM = "Missing required parameter",
+                });
+            }
+            Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);
+            if (schedule != null)
+            {
+                schedule.Date = DateTime.Parse(data.date);
+                schedule.DayType = data.day;
+                schedule.SlotType = data.slot;
+                context.SaveChanges();
+                return new JsonResult(new
+                {
+                    EC = 0,
+                    EM = "Update schedule successfully",
+                });
+            }
+            return new JsonResult(new
+            {
+                EC = 1,
+                EM = "Schedule not found",
             });
         }
     }

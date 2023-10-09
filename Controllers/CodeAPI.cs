@@ -3,9 +3,9 @@ using Project.Models;
 
 namespace Project.Controllers
 {
-    [Route("api/v1/slot")]
+    [Route("api/v1/code")]
     [ApiController]
-    public class SlotAPI : ControllerBase
+    public class CodeAPI : ControllerBase
     {
         MyProjectDbContext context = new MyProjectDbContext();
 
