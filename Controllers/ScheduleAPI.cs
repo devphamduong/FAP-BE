@@ -125,15 +125,45 @@ namespace Project.Controllers
             Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);
             if (schedule != null)
             {
-                schedule.Date = DateTime.Parse(data.date);
-                schedule.DayType = data.day;
-                schedule.SlotType = data.slot;
-                context.SaveChanges();
-                return new JsonResult(new
+                if (schedule.Date < DateTime.Parse(data.date))
                 {
-                    EC = 0,
-                    EM = "Update schedule successfully",
-                });
+                    return new JsonResult(new
+                    {
+                        EC = 2,
+                        EM = "Date can only be changed to a future date or today",
+                    });
+                }
+                else
+                {
+                    if (Int32.Parse(schedule.SlotType.Substring(1)) > Int32.Parse(data.slot.Substring(1)))
+                    {
+                        return new JsonResult(new
+                        {
+                            EC = 2,
+                            EM = "Slot must be after current slot",
+                        });
+                    }
+                    else if (Int32.Parse(schedule.SlotType.Substring(1)) == Int32.Parse(data.slot.Substring(1)))
+                    {
+                        return new JsonResult(new
+                        {
+                            EC = 3,
+                            EM = "New slot is the same as original slot",
+                        });
+                    }
+                    else
+                    {
+                        schedule.Date = DateTime.Parse(data.date);
+                        schedule.DayType = data.day;
+                        schedule.SlotType = data.slot;
+                        context.SaveChanges();
+                        return new JsonResult(new
+                        {
+                            EC = 0,
+                            EM = "Updated schedule successfully",
+                        });
+                    }
+                }
             }
             return new JsonResult(new
             {
