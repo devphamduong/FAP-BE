@@ -86,3 +86,8 @@ D:\PRN231\Project\Project\obj\Debug\net6.0\Project.pdb
 D:\PRN231\Project\Project\obj\Debug\net6.0\Project.genruntimeconfig.cache
 D:\PRN231\Project\Project\obj\Debug\net6.0\ref\Project.dll
 D:\PRN231\Project\Project\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\PRN231\Project\Project\bin\Debug\net6.0\Microsoft.AspNetCore.OData.dll
+D:\PRN231\Project\Project\bin\Debug\net6.0\Microsoft.OData.Core.dll
+D:\PRN231\Project\Project\bin\Debug\net6.0\Microsoft.OData.Edm.dll
+D:\PRN231\Project\Project\bin\Debug\net6.0\Microsoft.OData.ModelBuilder.dll
+D:\PRN231\Project\Project\bin\Debug\net6.0\Microsoft.Spatial.dll

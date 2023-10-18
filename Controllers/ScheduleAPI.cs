@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project.Models;
 
 namespace Project.Controllers
@@ -25,12 +26,12 @@ namespace Project.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllSchedule([FromQuery] string startDate, [FromQuery] string? endDate)
+        public IActionResult GetAllSchedule([FromQuery] int userId, [FromQuery] string startDate, [FromQuery] string? endDate)
         {
-            IQueryable<Schedule> query = context.Schedules;
+            IQueryable<Schedule> query = context.Schedules.Include(s => s.Course).ThenInclude(c => c.CourseEnrolls);
             if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
             {
-                query = query.Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate));
+                query = query.Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate) && s.UserId == userId);
             }
             var schedules = query.Select(s => new
             {
@@ -40,7 +41,7 @@ namespace Project.Controllers
                 duration = s.SlotTypeNavigation.SlotDurations.FirstOrDefault(slot => slot.CodeId == s.SlotTypeNavigation.Code1).Duration,
                 room = s.Room,
                 day = new ObjDay { code = s.DayTypeNavigation.Code1, subject = s.Course, hasEduNext = s.Course.HasEduNext }
-            }).ToList();
+            }).Distinct().ToList();
             return new JsonResult(new
             {
                 EC = 0,

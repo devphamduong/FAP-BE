@@ -9,7 +9,7 @@ namespace Project.Controllers
     {
         MyProjectDbContext context = new MyProjectDbContext();
 
-        [HttpGet]
+        [HttpGet("slot")]
         public IActionResult GetAllSlot()
         {
             var slots = context.Codes.Where(s => s.Type.Equals("SLOT")).Select(s => new

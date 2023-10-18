@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
+using Project.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -12,6 +16,15 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
         });
 });
+
+var modelBuilder = new ODataConventionModelBuilder();
+modelBuilder.EntitySet<Code>("Codes");
+modelBuilder.EntitySet<SlotDuration>("SlotDurations");
+
+builder.Services.AddControllers().AddOData(
+    options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null).AddRouteComponents(
+        "odata",
+        modelBuilder.GetEdmModel()));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +45,6 @@ app.UseCors();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints => endpoints.MapControllers());
 app.MapControllers();
-
 app.Run();
