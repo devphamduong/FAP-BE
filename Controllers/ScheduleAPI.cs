@@ -125,7 +125,7 @@ namespace Project.Controllers
             Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);
             if (schedule != null)
             {
-                if (schedule.Date < DateTime.Parse(data.date))
+                if (DateTime.Parse(data.date) < schedule.Date)
                 {
                     return new JsonResult(new
                     {
@@ -135,19 +135,20 @@ namespace Project.Controllers
                 }
                 else
                 {
-                    if (Int32.Parse(schedule.SlotType.Substring(1)) > Int32.Parse(data.slot.Substring(1)))
-                    {
-                        return new JsonResult(new
-                        {
-                            EC = 2,
-                            EM = "Slot must be after current slot",
-                        });
-                    }
-                    else if (Int32.Parse(schedule.SlotType.Substring(1)) == Int32.Parse(data.slot.Substring(1)))
+                    DateTime currentDate = DateTime.UtcNow.Date;
+                    if (DateTime.Parse(data.date) <= currentDate && Int32.Parse(schedule.SlotType.Substring(1)) > Int32.Parse(data.slot.Substring(1)))
                     {
                         return new JsonResult(new
                         {
                             EC = 3,
+                            EM = "Slot must be after current slot",
+                        });
+                    }
+                    else if (DateTime.Parse(data.date) == schedule.Date && Int32.Parse(schedule.SlotType.Substring(1)) == Int32.Parse(data.slot.Substring(1)))
+                    {
+                        return new JsonResult(new
+                        {
+                            EC = 4,
                             EM = "New slot is the same as original slot",
                         });
                     }
