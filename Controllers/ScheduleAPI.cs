@@ -28,10 +28,17 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult GetAllSchedule([FromQuery] int userId, [FromQuery] string startDate, [FromQuery] string? endDate)
         {
-            IQueryable<Schedule> query = context.Schedules.Include(s => s.Course).ThenInclude(c => c.CourseEnrolls);
+            IQueryable<Schedule> query = context.Schedules;
             if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
             {
-                query = query.Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate) && s.UserId == userId);
+                query = context.Schedules.Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate) && s.UserId == userId);
+                if (query.Count() == 0)
+                {
+                    query = context.Schedules
+                        .Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate))
+                        .Include(s => s.Course)
+                            .Where(s => s.Course.CourseEnrolls.Any(ce => ce.UserId == userId));
+                }
             }
             var schedules = query.Select(s => new
             {
@@ -40,7 +47,12 @@ namespace Project.Controllers
                 code = s.SlotTypeNavigation.Code1,
                 duration = s.SlotTypeNavigation.SlotDurations.FirstOrDefault(slot => slot.CodeId == s.SlotTypeNavigation.Code1).Duration,
                 room = s.Room,
-                day = new ObjDay { code = s.DayTypeNavigation.Code1, subject = s.Course, hasEduNext = s.Course.HasEduNext }
+                day = new ObjDay
+                {
+                    code = s.DayTypeNavigation.Code1,
+                    subject = s.Course,
+                    hasEduNext = s.Course.HasEduNext
+                }
             }).Distinct().ToList();
             return new JsonResult(new
             {
