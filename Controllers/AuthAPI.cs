@@ -97,7 +97,7 @@ namespace Project.Controllers
             var cookieOptions = new CookieOptions();
             cookieOptions.Expires = DateTime.Now.AddDays(1);
             cookieOptions.HttpOnly = true;
-            Response.Cookies.Append("jwt", token, cookieOptions);
+            Response.Cookies.Append("access_token", token, cookieOptions);
             return new JsonResult(new
             {
                 EC = 0,
@@ -177,12 +177,49 @@ namespace Project.Controllers
             return jwt;
         }
 
-        private string VerifyToken(string token)
+        private string extractToken()
         {
-            var jwt = "[encoded jwt]";
+            if (!String.IsNullOrEmpty(Request.Headers.Authorization) && Request.Headers.Authorization.ToString().Split(' ')[0] == "Bearer" && !String.IsNullOrEmpty(Request.Headers.Authorization.ToString().Split(' ')[1]))
+            {
+                return Request.Headers.Authorization.ToString().Split(' ')[1];
+            }
+            return null;
+        }
+
+        private JwtSecurityToken VerifyToken()
+        {
+            var tokenCookie = Request.Cookies["access_token"];
+            var tokenBearer = extractToken();
             var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(token);
-            return jwtSecurityToken.Claims.First(c => c.Type == "email").Value;
+            var jwtSecurityToken = handler.ReadJwtToken(!String.IsNullOrEmpty(tokenBearer) ? tokenBearer : tokenCookie);
+            return jwtSecurityToken;
+        }
+
+        [HttpGet("account")]
+        public IActionResult GetAccount()
+        {
+            var jwtSecurityToken = VerifyToken();
+            UserDTO userDTO = new UserDTO
+            {
+                Id = Int32.Parse(jwtSecurityToken.Claims.First(c => c.Type == "id").Value),
+                Email = jwtSecurityToken.Claims.First(c => c.Type == "email").Value,
+                Username = jwtSecurityToken.Claims.First(c => c.Type == "userName").Value,
+                FullName = jwtSecurityToken.Claims.First(c => c.Type == "fullName").Value,
+                Gender = jwtSecurityToken.Claims.First(c => c.Type == "gender").Value,
+                Dob = DateTime.Parse(jwtSecurityToken.Claims.First(c => c.Type == "dob").Value),
+                Address = jwtSecurityToken.Claims.First(c => c.Type == "address").Value,
+                Role = jwtSecurityToken.Claims.First(c => c.Type == "role").Value,
+            };
+            return new JsonResult(new
+            {
+                EC = 0,
+                EM = "Get account successfully",
+                DT = new
+                {
+                    user = userDTO,
+                    access_token = Request.Cookies["access_token"],
+                },
+            });
         }
     }
 }
