@@ -147,6 +147,17 @@ namespace Project.Controllers
             });
         }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            return new JsonResult(new
+            {
+                EC = 0,
+                EM = "Logout successfully"
+            });
+        }
+
         private string CreateToken(UserDTO user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
