@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Project.Controllers
 {
@@ -16,6 +15,7 @@ namespace Project.Controllers
             public string? code { get; set; }
             public object? subject { get; set; }
             public bool? hasEduNext { get; set; }
+            public string room { get; set; }
         }
 
         public class ObjUpdateSchedule
@@ -26,27 +26,9 @@ namespace Project.Controllers
             public string? slot { get; set; }
         }
 
-        private string extractToken()
-        {
-            if (!String.IsNullOrEmpty(Request.Headers.Authorization) && Request.Headers.Authorization.ToString().Split(' ')[0] == "Bearer" && !String.IsNullOrEmpty(Request.Headers.Authorization.ToString().Split(' ')[1]))
-            {
-                return Request.Headers.Authorization.ToString().Split(' ')[1];
-            }
-            return null;
-        }
-        private string VerifyToken()
-        {
-            var tokenCookie = Request.Cookies["access_token"];
-            var tokenBearer = extractToken();
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(!String.IsNullOrEmpty(tokenBearer) ? tokenBearer : tokenCookie);
-            return jwtSecurityToken.Claims.First(c => c.Type == "email").Value;
-        }
         [HttpGet]
         public IActionResult GetAllSchedule([FromQuery] int userId, [FromQuery] string startDate, [FromQuery] string? endDate)
         {
-            var access_token = VerifyToken();
-            Console.WriteLine(access_token);
             IQueryable<Schedule> query = context.Schedules;
             if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
             {
@@ -56,7 +38,8 @@ namespace Project.Controllers
                     query = context.Schedules
                         .Where(s => s.Date >= DateTime.Parse(startDate) && s.Date <= DateTime.Parse(endDate))
                         .Include(s => s.Course)
-                            .Where(s => s.Course.CourseEnrolls.Any(ce => ce.UserId == userId));
+                        .Include(s => s.Class)
+                            .Where(s => s.Course.CourseEnrolls.Any(ce => ce.UserId == userId) && s.Class.ClassEnrolls.Any(cle => cle.UserId == userId));
                 }
             }
             var schedules = query.Select(s => new
@@ -65,12 +48,12 @@ namespace Project.Controllers
                 name = s.SlotTypeNavigation.Description,
                 code = s.SlotTypeNavigation.Code1,
                 duration = s.SlotTypeNavigation.SlotDurations.FirstOrDefault(slot => slot.CodeId == s.SlotTypeNavigation.Code1).Duration,
-                room = s.Room,
                 day = new ObjDay
                 {
                     code = s.DayTypeNavigation.Code1,
                     subject = s.Course,
-                    hasEduNext = s.Course.HasEduNext
+                    hasEduNext = s.Course.HasEduNext,
+                    room = s.Room,
                 }
             }).Distinct().ToList();
             return new JsonResult(new
@@ -156,7 +139,7 @@ namespace Project.Controllers
             Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);
             if (schedule != null)
             {
-                if (DateTime.Parse(data.date) < schedule.Date)
+                if (DateTime.Parse(data.date) > schedule.Date)
                 {
                     return new JsonResult(new
                     {
@@ -167,7 +150,7 @@ namespace Project.Controllers
                 else
                 {
                     DateTime currentDate = DateTime.UtcNow.Date;
-                    if (DateTime.Parse(data.date) <= currentDate && Int32.Parse(schedule.SlotType.Substring(1)) > Int32.Parse(data.slot.Substring(1)))
+                    if (DateTime.Parse(data.date) == currentDate && Int32.Parse(schedule.SlotType.Substring(1)) < Int32.Parse(data.slot.Substring(1)))
                     {
                         return new JsonResult(new
                         {
@@ -185,15 +168,26 @@ namespace Project.Controllers
                     }
                     else
                     {
-                        schedule.Date = DateTime.Parse(data.date);
-                        schedule.DayType = data.day;
-                        schedule.SlotType = data.slot;
-                        context.SaveChanges();
-                        return new JsonResult(new
+                        if (context.Schedules.Where(s => s.Id != data.scheduleId && s.Date == DateTime.Parse(data.date) && s.SlotType.Equals(data.slot)).Count() == 0)
                         {
-                            EC = 0,
-                            EM = "Updated schedule successfully",
-                        });
+                            schedule.Date = DateTime.Parse(data.date);
+                            schedule.DayType = data.day;
+                            schedule.SlotType = data.slot;
+                            context.SaveChanges();
+                            return new JsonResult(new
+                            {
+                                EC = 0,
+                                EM = "Updated schedule successfully",
+                            });
+                        }
+                        else
+                        {
+                            return new JsonResult(new
+                            {
+                                EC = 5,
+                                EM = $"Slot {data.slot.Substring(1)} is already occupied",
+                            });
+                        }
                     }
                 }
             }

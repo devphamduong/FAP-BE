@@ -209,18 +209,30 @@ namespace Project.Controllers
         [HttpGet("account")]
         public IActionResult GetAccount()
         {
-            var jwtSecurityToken = VerifyToken();
-            UserDTO userDTO = new UserDTO
+            UserDTO userDTO = null;
+            try
             {
-                Id = Int32.Parse(jwtSecurityToken.Claims.First(c => c.Type == "id").Value),
-                Email = jwtSecurityToken.Claims.First(c => c.Type == "email").Value,
-                Username = jwtSecurityToken.Claims.First(c => c.Type == "userName").Value,
-                FullName = jwtSecurityToken.Claims.First(c => c.Type == "fullName").Value,
-                Gender = jwtSecurityToken.Claims.First(c => c.Type == "gender").Value,
-                Dob = DateTime.Parse(jwtSecurityToken.Claims.First(c => c.Type == "dob").Value),
-                Address = jwtSecurityToken.Claims.First(c => c.Type == "address").Value,
-                Role = jwtSecurityToken.Claims.First(c => c.Type == "role").Value,
-            };
+                var jwtSecurityToken = VerifyToken();
+                userDTO = new UserDTO
+                {
+                    Id = Int32.Parse(jwtSecurityToken.Claims.First(c => c.Type == "id").Value),
+                    Email = jwtSecurityToken.Claims.First(c => c.Type == "email").Value,
+                    Username = jwtSecurityToken.Claims.First(c => c.Type == "userName").Value,
+                    FullName = jwtSecurityToken.Claims.First(c => c.Type == "fullName").Value,
+                    Gender = jwtSecurityToken.Claims.First(c => c.Type == "gender").Value,
+                    Dob = DateTime.Parse(jwtSecurityToken.Claims.First(c => c.Type == "dob").Value),
+                    Address = jwtSecurityToken.Claims.First(c => c.Type == "address").Value,
+                    Role = jwtSecurityToken.Claims.First(c => c.Type == "role").Value,
+                };
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new
+                {
+                    EC = -1,
+                    EM = "Not authenticated"
+                });
+            }
             return new JsonResult(new
             {
                 EC = 0,
