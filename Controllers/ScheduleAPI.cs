@@ -29,6 +29,14 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult GetAllSchedule([FromQuery] int userId, [FromQuery] string startDate, [FromQuery] string? endDate)
         {
+            if (string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(endDate) || string.IsNullOrEmpty(userId.ToString()))
+            {
+                return new JsonResult(new
+                {
+                    EC = -1,
+                    EM = "Missing required parameters",
+                });
+            }
             IQueryable<Schedule> query = context.Schedules;
             if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
             {
@@ -72,7 +80,7 @@ namespace Project.Controllers
                 return new JsonResult(new
                 {
                     EC = -1,
-                    EM = "Missing id parameter",
+                    EM = "Missing required parameters",
                 });
             }
             IQueryable<Schedule> query = context.Schedules;
@@ -133,7 +141,7 @@ namespace Project.Controllers
                 return new JsonResult(new
                 {
                     EC = -1,
-                    EM = "Missing required parameter",
+                    EM = "Missing required parameters",
                 });
             }
             Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);

@@ -22,7 +22,6 @@ namespace Project.Controllers
             }
             var group = context.ClassEnrolls.Where(s => s.ClassId == Int32.Parse(id)).Select(s => new
             {
-                key = 1,
                 image = "No image",
                 username = s.User.Username,
                 fullName = s.User.FullName
