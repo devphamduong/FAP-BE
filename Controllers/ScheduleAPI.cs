@@ -147,7 +147,7 @@ namespace Project.Controllers
             Schedule schedule = context.Schedules.SingleOrDefault(item => item.Id == data.scheduleId);
             if (schedule != null)
             {
-                if (DateTime.Parse(data.date) > schedule.Date)
+                if (DateTime.Parse(data.date) < schedule.Date)
                 {
                     return new JsonResult(new
                     {
@@ -158,7 +158,7 @@ namespace Project.Controllers
                 else
                 {
                     DateTime currentDate = DateTime.UtcNow.Date;
-                    if (DateTime.Parse(data.date) == currentDate && Int32.Parse(schedule.SlotType.Substring(1)) < Int32.Parse(data.slot.Substring(1)))
+                    if (DateTime.Parse(data.date) == currentDate && Int32.Parse(schedule.SlotType.Substring(1)) >= Int32.Parse(data.slot.Substring(1)))
                     {
                         return new JsonResult(new
                         {
