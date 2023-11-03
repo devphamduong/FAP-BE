@@ -1,6 +1,6 @@
 USE [MyProjectDB]
 GO
-/****** Object:  Table [dbo].[Class]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[Class]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,7 +14,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ClassEnroll]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[ClassEnroll]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -29,7 +29,7 @@ CREATE TABLE [dbo].[ClassEnroll](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Code]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[Code]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -45,7 +45,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -60,7 +60,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CourseEnroll]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[CourseEnroll]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,7 +75,7 @@ CREATE TABLE [dbo].[CourseEnroll](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -89,7 +89,7 @@ CREATE TABLE [dbo].[Role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Schedule]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[Schedule]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +109,7 @@ CREATE TABLE [dbo].[Schedule](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SlotDuration]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[SlotDuration]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +124,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Table [dbo].[User]    Script Date: 11/3/2023 4:15:49 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,6 +150,8 @@ GO
 INSERT [dbo].[Class] ([id], [name]) VALUES (2, N'GD1608-AD ')
 GO
 INSERT [dbo].[Class] ([id], [name]) VALUES (1, N'SE1618-NET')
+GO
+INSERT [dbo].[Class] ([id], [name]) VALUES (3, N'SE1817-AI ')
 GO
 SET IDENTITY_INSERT [dbo].[Class] OFF
 GO
@@ -205,8 +207,7 @@ SET IDENTITY_INSERT [dbo].[Code] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Course] ON 
 GO
-INSERT [dbo].[Course] ([id], [name], [hasEduNext]) VALUES (1, N'
-MLN111', 1)
+INSERT [dbo].[Course] ([id], [name], [hasEduNext]) VALUES (1, N'MLN111', 1)
 GO
 INSERT [dbo].[Course] ([id], [name], [hasEduNext]) VALUES (2, N'PRN231', 0)
 GO
@@ -236,6 +237,8 @@ INSERT [dbo].[CourseEnroll] ([id], [courseId], [userId]) VALUES (7, 5, 1)
 GO
 INSERT [dbo].[CourseEnroll] ([id], [courseId], [userId]) VALUES (8, 6, 1)
 GO
+INSERT [dbo].[CourseEnroll] ([id], [courseId], [userId]) VALUES (9, 6, 8)
+GO
 SET IDENTITY_INSERT [dbo].[CourseEnroll] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Role] ON 
@@ -247,20 +250,6 @@ GO
 SET IDENTITY_INSERT [dbo].[Role] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Schedule] ON 
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1, CAST(N'2023-09-25T00:00:00.000' AS DateTime), 1, 2, NULL, N'MON', N'S3', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (2, CAST(N'2023-09-26T00:00:00.000' AS DateTime), 2, 1, NULL, N'TUE', N'S3', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (3, CAST(N'2023-09-27T00:00:00.000' AS DateTime), 4, 1, NULL, N'WED', N'S4', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (4, CAST(N'2023-09-28T00:00:00.000' AS DateTime), 1, 2, NULL, N'THU', N'S4', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (5, CAST(N'2023-09-29T00:00:00.000' AS DateTime), 2, 1, NULL, N'FRI', N'S4', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (6, CAST(N'2023-09-30T00:00:00.000' AS DateTime), 5, 2, NULL, N'SAT', N'S4', NULL)
-GO
-INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (7, CAST(N'2023-09-30T00:00:00.000' AS DateTime), 6, 2, NULL, N'SAT', N'S5', NULL)
 GO
 INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (10, CAST(N'2023-10-02T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'BE-206')
 GO
@@ -276,6 +265,78 @@ INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType
 GO
 INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (16, CAST(N'2023-10-07T00:00:00.000' AS DateTime), 4, 1, 3, N'SAT', N'S4', N'BE-115')
 GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (17, CAST(N'2023-10-09T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (18, CAST(N'2023-10-10T00:00:00.000' AS DateTime), 2, 1, 2, N'TUE', N'S3', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (19, CAST(N'2023-10-11T00:00:00.000' AS DateTime), 4, 1, 3, N'WED', N'S4', N'DE-C308')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (20, CAST(N'2023-10-12T00:00:00.000' AS DateTime), 1, 2, 3, N'THU', N'S4', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (21, CAST(N'2023-10-13T00:00:00.000' AS DateTime), 2, 1, 2, N'FRI', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (22, CAST(N'2023-10-14T00:00:00.000' AS DateTime), 5, 2, 3, N'SAT', N'S4', N'DE-212')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (23, CAST(N'2023-10-14T00:00:00.000' AS DateTime), 6, 2, 3, N'SAT', N'S5', N'DE-C204')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (25, CAST(N'2023-10-14T00:00:00.000' AS DateTime), 6, 3, 3, N'SAT', N'S5', N'DE-C204')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (26, CAST(N'2023-10-16T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (27, CAST(N'2023-10-17T00:00:00.000' AS DateTime), 2, 1, 2, N'TUE', N'S3', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (28, CAST(N'2023-10-18T00:00:00.000' AS DateTime), 4, 1, 3, N'WED', N'S4', N'DE-C308')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (29, CAST(N'2023-10-19T00:00:00.000' AS DateTime), 1, 2, 3, N'THU', N'S4', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (30, CAST(N'2023-10-20T00:00:00.000' AS DateTime), 2, 1, 2, N'FRI', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (31, CAST(N'2023-10-21T00:00:00.000' AS DateTime), 1, 2, 3, N'SAT', N'S5', N'AL-L511')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (34, CAST(N'2023-10-23T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (35, CAST(N'2023-10-24T00:00:00.000' AS DateTime), 2, 1, 2, N'TUE', N'S3', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (36, CAST(N'2023-10-25T00:00:00.000' AS DateTime), 4, 1, 3, N'WED', N'S4', N'DE-C308')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (37, CAST(N'2023-10-26T00:00:00.000' AS DateTime), 1, 2, 3, N'THU', N'S4', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (38, CAST(N'2023-10-27T00:00:00.000' AS DateTime), 2, 1, 2, N'FRI', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (39, CAST(N'2023-10-27T00:00:00.000' AS DateTime), 4, 2, 3, N'FRI', N'S5', N'AL-L511')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (40, CAST(N'2023-10-28T00:00:00.000' AS DateTime), 5, 2, 3, N'SAT', N'S4', N'DE-212')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (41, CAST(N'2023-10-28T00:00:00.000' AS DateTime), 6, 2, 3, N'SAT', N'S5', N'DE-C204')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (42, CAST(N'2023-10-30T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1034, CAST(N'2023-10-31T00:00:00.000' AS DateTime), 2, 1, 2, N'TUE', N'S3', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1035, CAST(N'2023-10-31T00:00:00.000' AS DateTime), 4, 2, 3, N'TUE', N'S4', N'Phòng tự học 1')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1036, CAST(N'2023-11-01T00:00:00.000' AS DateTime), 4, 1, 3, N'WED', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1037, CAST(N'2023-11-02T00:00:00.000' AS DateTime), 1, 2, 3, N'THU', N'S4', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1038, CAST(N'2023-11-03T00:00:00.000' AS DateTime), 2, 1, 2, N'FRI', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1039, CAST(N'2023-11-04T00:00:00.000' AS DateTime), 4, 2, 3, N'SAT', N'S5', N'GA511(8h30-11h30)')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1043, CAST(N'2023-11-06T00:00:00.000' AS DateTime), 1, 2, 3, N'MON', N'S3', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1044, CAST(N'2023-11-07T00:00:00.000' AS DateTime), 2, 1, 2, N'TUE', N'S3', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1045, CAST(N'2023-11-08T00:00:00.000' AS DateTime), 4, 1, 3, N'WED', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1046, CAST(N'2023-11-09T00:00:00.000' AS DateTime), 1, 2, 3, N'THU', N'S4', N'BE-206')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1047, CAST(N'2023-11-10T00:00:00.000' AS DateTime), 2, 1, 2, N'FRI', N'S4', N'DE-229')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1048, CAST(N'2023-11-11T00:00:00.000' AS DateTime), 5, 1, 3, N'SAT', N'S4', N'DE-212')
+GO
+INSERT [dbo].[Schedule] ([id], [date], [courseId], [classId], [userId], [dayType], [slotType], [room]) VALUES (1049, CAST(N'2023-11-11T00:00:00.000' AS DateTime), 6, 1, 3, N'SAT', N'S5', N'DE-C204')
+GO
 SET IDENTITY_INSERT [dbo].[Schedule] OFF
 GO
 SET IDENTITY_INSERT [dbo].[SlotDuration] ON 
@@ -290,11 +351,13 @@ INSERT [dbo].[SlotDuration] ([id], [codeId], [duration]) VALUES (5, N'S4', N'15:
 GO
 INSERT [dbo].[SlotDuration] ([id], [codeId], [duration]) VALUES (6, N'S5', N'18:00-20:20')
 GO
+INSERT [dbo].[SlotDuration] ([id], [codeId], [duration]) VALUES (1002, N'S6', N'20:30-22:50')
+GO
 SET IDENTITY_INSERT [dbo].[SlotDuration] OFF
 GO
 SET IDENTITY_INSERT [dbo].[User] ON 
 GO
-INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (1, N'pduong244@gmail.com', N'duongpche163153', N'1', N'Phạm Chu Dương', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
+INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (1, N'duongpche163153@fpt.edu.vn', N'duongpche163153', N'1', N'Phạm Chu Dương', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
 GO
 INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (2, N'tientd17@fe.edu.vn', N'TienTD17', N'1', N'Tạ Đình Tiến', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 2)
 GO
@@ -302,15 +365,17 @@ INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender]
 GO
 INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (4, N'huypche163153@fpt.edu.vn', N'huypche163153', N'1', N'Phạm Chu Huy', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
 GO
-INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (5, N'hungpthe163153', N'hungpthe163153@fpt.edu.vn', N'1', N'Phạm Thế Hưng', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
+INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (5, N'hungpthe163153@fpt.edu.vn', N'hungpthe163153', N'1', N'Phạm Thế Hưng', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
 GO
-INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (6, N'duyenct163153', N'duyenct163153@fpt.edu.vn', N'1', N'Chu Thị Duyên', 0, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
+INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (6, N'duyenct163153@fpt.edu.vn', N'duyenct163153', N'1', N'Chu Thị Duyên', 0, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
+GO
+INSERT [dbo].[User] ([id], [email], [username], [password], [fullName], [gender], [address], [dob], [roleId]) VALUES (8, N'pduong244@gmail.com', N'DuongPC', N'1', N'Pham Chu Duong', 1, N'Phù Yên', CAST(N'2002-06-29T00:00:00.000' AS DateTime), 1)
 GO
 SET IDENTITY_INSERT [dbo].[User] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Class__72E12F1B82F1081E]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Index [UQ__Class__72E12F1B82F1081E]    Script Date: 11/3/2023 4:15:49 PM ******/
 ALTER TABLE [dbo].[Class] ADD UNIQUE NONCLUSTERED 
 (
 	[name] ASC
@@ -318,7 +383,7 @@ ALTER TABLE [dbo].[Class] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Code__357D4CF9CCED90B7]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Index [UQ__Code__357D4CF9CCED90B7]    Script Date: 11/3/2023 4:15:49 PM ******/
 ALTER TABLE [dbo].[Code] ADD UNIQUE NONCLUSTERED 
 (
 	[code] ASC
@@ -326,7 +391,7 @@ ALTER TABLE [dbo].[Code] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Course__72E12F1BACDF9377]    Script Date: 10/6/2023 1:52:07 PM ******/
+/****** Object:  Index [UQ__Course__72E12F1BACDF9377]    Script Date: 11/3/2023 4:15:49 PM ******/
 ALTER TABLE [dbo].[Course] ADD UNIQUE NONCLUSTERED 
 (
 	[name] ASC
